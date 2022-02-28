@@ -1,39 +1,47 @@
 variable "lob_customer_success" {
-    type = string
+  type = string
 }
 
 variable "team_csa" {
-    type = string
+  type = string
 }
 
 variable "team_csm" {
-    type = string
+  type = string
 }
 
 variable "k8s_namespace" {
-    type = string
+  type = string
 }
 
 variable "k8s_sa_name_colin_app" {
-    type = string
+  type = string
 }
 
 variable "app_name_colinapp" {
-    type = string
+  type = string
 }
 
 variable "k8s_sa_name_lewis_app" {
-    type = string
+  type = string
 }
 
 variable "app_name_lewisapp" {
-    type = string
+  type = string
 }
 
 variable "k8s_host" {
-    type = string
+  type = string
 }
 
 variable "k8s_issuer" {
-    type = string
+  type = string
+}
+
+variable "k8s_token" {
+  type = string
+}
+
+variable "k8s_ca" {
+  type = string
 }

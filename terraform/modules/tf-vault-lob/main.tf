@@ -7,11 +7,11 @@ resource "vault_namespace" "ns-lob" {
 
 # Fetch K8s SA data
 
-data "kubernetes_secret" "vault-server-sa" {   
-    metadata {
-        name = var.vault_server_sa_secret_name
-    }
-}
+# data "kubernetes_secret" "vault-server-sa" {   
+#     metadata {
+#         name = var.vault_server_sa_secret_name
+#     }
+# }
 
 # Create K8s Auth Method Backend and Config for each LOB
 
@@ -25,8 +25,11 @@ resource "vault_kubernetes_auth_backend_config" "k8s-config-lob" {
 
     backend                 = vault_auth_backend.k8s-lob.path
     kubernetes_host         = var.k8s_host
-    kubernetes_ca_cert      = data.kubernetes_secret.vault-server-sa.data["ca.crt"]
-    token_reviewer_jwt      = data.kubernetes_secret.vault-server-sa.data["token"]
+    # kubernetes_ca_cert      = data.kubernetes_secret.vault-server-sa.data["ca.crt"]
+    # token_reviewer_jwt      = data.kubernetes_secret.vault-server-sa.data["token"]
+    kubernetes_ca_cert      = var.k8s_ca
+    token_reviewer_jwt      = var.k8s_token
+
     issuer                  = var.k8s_issuer
 }
 

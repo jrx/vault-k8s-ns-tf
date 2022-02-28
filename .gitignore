@@ -3,3 +3,5 @@
 *pid
 terraform.tfstate*
 .terraform*
+terraform.auto.tfvars*
+ca.crt
