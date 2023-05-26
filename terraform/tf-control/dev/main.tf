@@ -1,12 +1,12 @@
 # Create K8s Service Accounts
 
-  module "tf-k8s" {
-    source = "../../modules/tf-k8s"
+module "tf-k8s" {
+  source = "../../modules/tf-k8s"
 
-    k8s_sa_name_colin_app = var.k8s_sa_name_colin_app
-    k8s_sa_name_lewis_app = var.k8s_sa_name_lewis_app
-    k8s_namespace         = var.k8s_namespace
-  }
+  k8s_sa_name_colin_app = var.k8s_sa_name_colin_app
+  k8s_sa_name_lewis_app = var.k8s_sa_name_lewis_app
+  k8s_namespace         = var.k8s_namespace
+}
 
 # Create Customer Success LOB - we have a K8s cluster per LOB in this scenario.
 # There are some LOB secrets that need to be accessed by lower-level OUs here, 

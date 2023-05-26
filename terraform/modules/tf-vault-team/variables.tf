@@ -1,11 +1,11 @@
 variable "lob_name" {
-    type = string
+  type = string
 }
 
 variable "team_name" {
-    type = string
+  type = string
 }
 
 variable "team_group_member_ids" {
-    type = list
+  type = list(any)
 }

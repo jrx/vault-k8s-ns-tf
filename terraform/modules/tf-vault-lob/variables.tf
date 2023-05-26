@@ -1,17 +1,17 @@
 variable "k8s_host" {
-    type = string
+  type = string
 }
 
 variable "k8s_issuer" {
-    type = string
+  type = string
 }
 
 variable "k8s_token" {
-    type = string
+  type = string
 }
 
 variable "k8s_ca" {
-    type = string
+  type = string
 }
 
 # variable "vault_server_sa_secret_name" {
@@ -19,9 +19,9 @@ variable "k8s_ca" {
 # }
 
 variable "lob_name" {
-    type = string
+  type = string
 }
 
 variable "lob_group_member_ids" {
-    type = list
+  type = list(any)
 }
