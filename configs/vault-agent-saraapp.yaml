@@ -20,13 +20,13 @@ metadata:
 apiVersion: v1
 kind: Service
 metadata:
-  name: vault-agent-lewisapp
+  name: vault-agent-saraapp
   labels:
-    run: vault-agent-lewisapp
+    run: vault-agent-saraapp
 spec:
   type: NodePort
   selector:
-    run: vault-agent-lewisapp
+    run: vault-agent-saraapp
   ports:
     - port: 80
       targetPort: 80
@@ -38,43 +38,43 @@ spec:
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: vault-agent-lewisapp
+  name: vault-agent-saraapp
 spec:
   selector:
     matchLabels:
-      run: vault-agent-lewisapp
+      run: vault-agent-saraapp
   replicas: 2
   template:
     metadata:
       labels:
-        run: vault-agent-lewisapp
+        run: vault-agent-saraapp
       annotations:
         vault.hashicorp.com/agent-inject: "true"
-        vault.hashicorp.com/role: "lewisapp-role"
+        vault.hashicorp.com/role: "saraapp-role"
         vault.hashicorp.com/tls-skip-verify: "true"
         vault.hashicorp.com/agent-run-as-same-user: "true"
         vault.hashicorp.com/agent-set-security-context: "true"
         vault.hashicorp.com/agent-cache-enable: "true"
-        vault.hashicorp.com/namespace: "customer-success"
+        vault.hashicorp.com/namespace: "sea"
         # Static secret as index.html
-        vault.hashicorp.com/secret-volume-path-cs.html: "/usr/share/nginx/html"
-        vault.hashicorp.com/agent-inject-secret-cs.html: "secret/customer-success"
-        vault.hashicorp.com/agent-inject-template-cs.html: |
-          {{- with secret "secret/customer-success" -}}
+        vault.hashicorp.com/secret-volume-path-sea.html: "/usr/share/nginx/html"
+        vault.hashicorp.com/agent-inject-secret-sea.html: "secret/sea"
+        vault.hashicorp.com/agent-inject-template-sea.html: |
+          {{- with secret "secret/sea" -}}
           {{ .Data.value }}
           {{- end }}
-        # Static secret as csa.html
-        vault.hashicorp.com/secret-volume-path-csa.html: "/usr/share/nginx/html"
-        vault.hashicorp.com/agent-inject-secret-csa.html: "csa/secret/csa-team-secret"
-        vault.hashicorp.com/agent-inject-template-csa.html: |
-          {{- with secret "csa/secret/csa-team-secret" -}}
+        # Static secret as sa.html
+        vault.hashicorp.com/secret-volume-path-sa.html: "/usr/share/nginx/html"
+        vault.hashicorp.com/agent-inject-secret-sa.html: "sa/secret/sa-team-secret"
+        vault.hashicorp.com/agent-inject-template-sa.html: |
+          {{- with secret "sa/secret/sa-team-secret" -}}
           {{ .Data.value }}
           {{- end }}
-        # Static secret as lewisapp.html
-        vault.hashicorp.com/secret-volume-path-lewisapp.html: "/usr/share/nginx/html"
-        vault.hashicorp.com/agent-inject-secret-lewisapp.html: "csa/secret/csa-app-secrets/lewisapp"
-        vault.hashicorp.com/agent-inject-template-lewisapp.html: |
-          {{- with secret "csa/secret/csa-app-secrets/lewisapp" -}}
+        # Static secret as saraapp.html
+        vault.hashicorp.com/secret-volume-path-saraapp.html: "/usr/share/nginx/html"
+        vault.hashicorp.com/agent-inject-secret-saraapp.html: "sa/secret/sa-app-secrets/saraapp"
+        vault.hashicorp.com/agent-inject-template-saraapp.html: |
+          {{- with secret "sa/secret/sa-app-secrets/saraapp" -}}
           {{ .Data.value }}
           {{- end }}
     spec:
@@ -82,6 +82,10 @@ spec:
       - name: configmap-volume
         configMap:
           name: nginxconfigmap
+      securityContext:
+        sysctls:
+        - name: net.ipv4.ip_unprivileged_port_start
+          value: "80"
       containers:
       - name: nginx
         image: nginxinc/nginx-unprivileged
@@ -99,7 +103,7 @@ spec:
               cpu: "500m"
         livenessProbe:
           httpGet:
-            path: /cs.html
+            path: /sea.html
             port: 80
           initialDelaySeconds: 30
           timeoutSeconds: 1
@@ -107,5 +111,5 @@ spec:
         - mountPath: /etc/nginx/conf.d
           name: configmap-volume
       shareProcessNamespace: true
-      serviceAccountName: vault-agent-auth-lewisapp
+      serviceAccountName: vault-agent-auth-saraapp
 ---

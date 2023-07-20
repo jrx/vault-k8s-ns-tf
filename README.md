@@ -15,14 +15,14 @@ This demo aims to demonstrate the following, for the following reasons:
 
 ## Scenario
 
-The scenario is very loosely based on the HashiCorp Customer Success organisational/LOB structure, within which there are two teams- Customer Success Architecture (CSA) and Customer Success Management (CSM).
+The scenario is very loosely based on the HashiCorp Customer Success organisational/LOB structure, within which there are two teams- Customer Success Architecture (sa) and Customer Success Management (se).
 
-A Kubernetes cluster (for the purposes of this demo, a local Minikube deployment) is aligned to each LOB and shared across multiple teams. Three applications, colinapp, lewisapp and janapp, are managed
-by the CSA team and deployed on the cluster. Secrets need to be accessed by the applications in the following situations:
+A Kubernetes cluster (for the purposes of this demo, a local Minikube deployment) is aligned to each LOB and shared across multiple teams. Three applications, janapp, saraapp and janapp, are managed
+by the sa team and deployed on the cluster. Secrets need to be accessed by the applications in the following situations:
 
-* The secret at `customer-success/secret/customer-success-secret` should be accessible by any app that is a member of the customer-success LOB.
-* The secret at `customer-success/secret/csa/secret/csa-team-secret` should only be accessible by any app that is a member of the customer-success team.
-* The secret at `customer-success/secret/csa/secret/csa-app-secrets/{appname}-app-secret` should only be accessible by that given app.
+* The secret at `sea/secret/sea-secret` should be accessible by any app that is a member of the sea LOB.
+* The secret at `sea/secret/sa/secret/sa-team-secret` should only be accessible by any app that is a member of the sea team.
+* The secret at `sea/secret/sa/secret/sa-app-secrets/{appname}-app-secret` should only be accessible by that given app.
 
 ### Architecture
 
@@ -38,15 +38,15 @@ by the CSA team and deployed on the cluster. Secrets need to be accessed by the 
 
 The following are decisions that could be made for different approaches with the architecture.
 
-1. `customer-secret-policy` is being attached to the kubernetes role. An alternative approach would have been to attach it to the customer-success-group.
+1. `customer-secret-policy` is being attached to the kubernetes role. An alternative approach would have been to attach it to the sea-group.
 
-2. Multiple roles (e.g. `colinapp-role`,`lewisapp-role`) are being defined on each namespace. Since these are all linked to the same Vault policy and the same Kubernetes 
+2. Multiple roles (e.g. `janapp-role`,`saraapp-role`) are being defined on each namespace. Since these are all linked to the same Vault policy and the same Kubernetes 
 namespace, a single role could just be used for the multiple Kubernetes service accounts to authenticate to.
 
-3. The entities created at the `customer-success` namespace level could be directly made members of the `customer-success-group` internal group, rather than indirectly made members of it through 
-their membership of the `csa-group` internal group on the `csa` namespace.
+3. The entities created at the `sea` namespace level could be directly made members of the `sea-group` internal group, rather than indirectly made members of it through 
+their membership of the `sa-group` internal group on the `sa` namespace.
 
-4. `csa-app-secret-policy` could equally just be made part of the csa-secret-policy, or attached directly to the `csa-group` internal group, since it uses policy path templating.
+4. `sa-app-secret-policy` could equally just be made part of the sa-secret-policy, or attached directly to the `sa-group` internal group, since it uses policy path templating.
 
 ## Running the Demo
 
@@ -68,9 +68,9 @@ All of which were tested running on MacOS Big Sur 11.6
 careful to correctly set the minikube cluster IP in the `terraform.tfvars` file. You can get this by running a `minikube ip`.
 5. `cd` back to the POC root directory and then run `./3-deploy-apps.sh` to deploy the apps onto Kubernetes
 6. Follow the instructions in the output of this script to open the relevant pages on each nginx container web server. They'd be
-    * `/cs.html` to access the customer-success specific secret.
-    * `/csa.html` to access the csa-team specific secret.
-    * `/colinapp.html` or `/lewisapp.html`, depending on the app, to access the app-specific secret.
+    * `/cs.html` to access the sea specific secret.
+    * `/sa.html` to access the sa-team specific secret.
+    * `/janapp.html` or `/saraapp.html`, depending on the app, to access the app-specific secret.
 
 
 ## Further Considerations

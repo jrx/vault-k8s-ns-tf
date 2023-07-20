@@ -1,12 +1,12 @@
-variable "lob_customer_success" {
+variable "lob_sea" {
   type = string
 }
 
-variable "team_csa" {
+variable "team_sa" {
   type = string
 }
 
-variable "team_csm" {
+variable "team_se" {
   type = string
 }
 
@@ -14,19 +14,19 @@ variable "k8s_namespace" {
   type = string
 }
 
-variable "k8s_sa_name_colin_app" {
+variable "k8s_sa_name_jan_app" {
   type = string
 }
 
-variable "app_name_colinapp" {
+variable "app_name_janapp" {
   type = string
 }
 
-variable "k8s_sa_name_lewis_app" {
+variable "k8s_sa_name_sara_app" {
   type = string
 }
 
-variable "app_name_lewisapp" {
+variable "app_name_saraapp" {
   type = string
 }
 

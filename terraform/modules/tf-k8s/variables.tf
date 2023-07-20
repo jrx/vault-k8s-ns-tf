@@ -1,8 +1,8 @@
-variable "k8s_sa_name_colin_app" {
+variable "k8s_sa_name_jan_app" {
   type = string
 }
 
-variable "k8s_sa_name_lewis_app" {
+variable "k8s_sa_name_sara_app" {
   type = string
 }
 

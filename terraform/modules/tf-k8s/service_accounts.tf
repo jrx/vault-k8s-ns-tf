@@ -28,16 +28,16 @@
 
 # Create Vault Agent Auth Service Account
 
-resource "kubernetes_service_account" "vault-agent-auth-colinapp" {
+resource "kubernetes_service_account" "vault-agent-auth-janapp" {
   metadata {
-    name      = var.k8s_sa_name_colin_app
+    name      = var.k8s_sa_name_jan_app
     namespace = var.k8s_namespace
   }
 }
 
-resource "kubernetes_service_account" "vault-agent-auth-lewisapp" {
+resource "kubernetes_service_account" "vault-agent-auth-saraapp" {
   metadata {
-    name      = var.k8s_sa_name_lewis_app
+    name      = var.k8s_sa_name_sara_app
     namespace = var.k8s_namespace
   }
 }

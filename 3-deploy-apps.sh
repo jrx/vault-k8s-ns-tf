@@ -2,15 +2,15 @@
 
 # Apply vault-agent demo configurations
 
-kubectl apply -f configs/vault-agent-colinapp.yaml
-kubectl apply -f configs/vault-agent-lewisapp.yaml
+kubectl apply -f configs/vault-agent-janapp.yaml
+kubectl apply -f configs/vault-agent-saraapp.yaml
 
 echo ""
-echo "ColinApp Minikube Service URL:"
+echo "JanApp Minikube Service URL:"
 
-minikube service --url vault-agent-colinapp
+minikube service --url vault-agent-janapp
 
 echo ""
-echo "LewisApp Minikube Service URL:"
+echo "SaraApp Minikube Service URL:"
 
-minikube service --url vault-agent-lewisapp
+minikube service --url vault-agent-saraapp

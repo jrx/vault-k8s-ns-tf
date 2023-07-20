@@ -2,12 +2,10 @@ terraform {
   required_providers {
     kubernetes = {
       source  = "hashicorp/kubernetes"
-      version = "2.6.1"
     }
 
     vault = {
       source  = "hashicorp/vault"
-      version = "2.24.1"
     }
   }
 }
@@ -21,16 +19,16 @@ provider "vault" {
 }
 
 provider "vault" {
-  alias     = "customer-success"
+  alias     = "sea"
   namespace = trimsuffix(module.cs-vault-lob.vault-lob-namespace-id, "/")
 }
 
 provider "vault" {
-  alias     = "csa"
-  namespace = trimsuffix(module.cs-csa-vault-team.vault-team-namespace-id, "/")
+  alias     = "sa"
+  namespace = trimsuffix(module.cs-sa-vault-team.vault-team-namespace-id, "/")
 }
 
 provider "vault" {
-  alias     = "csm"
-  namespace = trimsuffix(module.cs-csm-vault-team.vault-team-namespace-id, "/")
+  alias     = "se"
+  namespace = trimsuffix(module.cs-se-vault-team.vault-team-namespace-id, "/")
 }
