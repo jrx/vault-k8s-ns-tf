@@ -7,18 +7,17 @@ Configuring a Vault dev server with multiple namespaces using Terraform
 This demo aims to demonstrate the following, for the following reasons:
 
 * How to configure the Vault application with Terraform
-    * Why? Because Terraform is HashiCorp's recommended method of configuring the Vault application.
+  * Why? Because Terraform is HashiCorp's recommended method of configuring the Vault application.
 * How an organisational structure could be loosely represented in Vault using Namespaces in a scalable fashion.
-    * Why? Because Namespaces are useful for higher-level segregation of secrets and delegation of administration of policy in Vault.
+  * Why? Because Namespaces are useful for higher-level segregation of secrets and delegation of administration of policy in Vault.
 * How Vault clients authenticating via an auth method hosted on a parent namespace could access secrets stored on a child namespace.
-    * Why? Because many organisations may co-host multiple applications on Kubernetes, whilst still requiring some level of separation of management of their secrets due to team structures.
+  * Why? Because many organisations may co-host multiple applications on Kubernetes, whilst still requiring some level of separation of management of their secrets due to team structures.
 
 ## Scenario
 
-The scenario is very loosely based on the HashiCorp Customer Success organisational/LOB structure, within which there are two teams- Customer Success Architecture (sa) and Customer Success Management (se).
+The scenario is very loosely based on the HashiCorp SEA/LOB structure, within which there are two teams - Solutions Architecture (sa) and Solutions Engineering (se).
 
-A Kubernetes cluster (for the purposes of this demo, a local Minikube deployment) is aligned to each LOB and shared across multiple teams. Three applications, janapp, saraapp and janapp, are managed
-by the sa team and deployed on the cluster. Secrets need to be accessed by the applications in the following situations:
+A Kubernetes cluster is aligned to each LOB and shared across multiple teams. Three applications, janapp, saraapp and janapp, are managed by the sa team and deployed on the cluster. Secrets need to be accessed by the applications in the following situations:
 
 * The secret at `sea/secret/sea-secret` should be accessible by any app that is a member of the sea LOB.
 * The secret at `sea/secret/sa/secret/sa-team-secret` should only be accessible by any app that is a member of the sea team.
@@ -38,9 +37,9 @@ by the sa team and deployed on the cluster. Secrets need to be accessed by the a
 
 The following are decisions that could be made for different approaches with the architecture.
 
-1. `customer-secret-policy` is being attached to the kubernetes role. An alternative approach would have been to attach it to the sea-group.
+1. `sea-secret-policy` is being attached to the Kubernetes role. An alternative approach would have been to attach it to the sea-group.
 
-2. Multiple roles (e.g. `janapp-role`,`saraapp-role`) are being defined on each namespace. Since these are all linked to the same Vault policy and the same Kubernetes 
+2. Multiple roles (e.g. `janapp-role`, `saraapp-role`) are being defined on each namespace. Since these are all linked to the same Vault policy and the same Kubernetes 
 namespace, a single role could just be used for the multiple Kubernetes service accounts to authenticate to.
 
 3. The entities created at the `sea` namespace level could be directly made members of the `sea-group` internal group, rather than indirectly made members of it through 
@@ -53,25 +52,18 @@ their membership of the `sa-group` internal group on the `sa` namespace.
 
 ### Pre-Requisites
 
-* Minikube (tested using v1.22.0)
-* Vault Enterprise (tested using Vault v1.8.4+ent)
-* Terraform (tested using Terraform v1.0.10)
-
-All of which were tested running on MacOS Big Sur 11.6
+* Kubernetes
+* Vault Enterprise
+* Terraform
 
 ### How to Stand Up
 
-1. Start minikube with a `minikube start`
-2. Initialise Vault by running `./0-init-vault.sh`
-3. Once Minikube has started, deploy the Vault Agent Injector Helm chart `./1-deploy-agent-injector.sh`
-4. Next, deploy all resources using Terraform by running `terraform init`;`terraform plan`;`terraform apply` in the `terraform/tf-control/dev` directory. Be
-careful to correctly set the minikube cluster IP in the `terraform.tfvars` file. You can get this by running a `minikube ip`.
-5. `cd` back to the POC root directory and then run `./3-deploy-apps.sh` to deploy the apps onto Kubernetes
-6. Follow the instructions in the output of this script to open the relevant pages on each nginx container web server. They'd be
+1. Deploy all resources using Terraform by running `terraform init`;`terraform plan`;`terraform apply` in the `terraform/tf-control/dev` directory. Be careful to correctly set the variables in the `terraform.tfvars` file.
+2. `cd` back to the POC root directory and then run `./3-deploy-apps.sh` to deploy the apps onto Kubernetes
+3. Follow the instructions in the output of this script to open the relevant pages on each nginx container web server. They'd be
     * `/cs.html` to access the sea specific secret.
     * `/sa.html` to access the sa-team specific secret.
     * `/janapp.html` or `/saraapp.html`, depending on the app, to access the app-specific secret.
-
 
 ## Further Considerations
 
