@@ -1,19 +1,19 @@
 # Create K8s Service Accounts
 
-module "tf-k8s" {
-  source = "../../modules/tf-k8s"
+module "kubernetes" {
+  source = "./modules/kubernetes"
 
   k8s_sa_name_jan_app  = var.k8s_sa_name_jan_app
   k8s_sa_name_sara_app = var.k8s_sa_name_sara_app
   k8s_namespace        = var.k8s_namespace
 }
 
-# Create Customer Success LOB - we have a K8s cluster per LOB in this scenario.
+# Create a SEA LOB - we have a K8s cluster per LOB in this scenario.
 # There are some LOB secrets that need to be accessed by lower-level OUs here, 
 # as well as within those lower-level OU namespaces themselves
 
 module "cs-vault-lob" {
-  source = "../../modules/tf-vault-lob"
+  source = "./modules/tf-vault-lob"
 
   providers = {
     vault.root = vault.root
@@ -28,11 +28,11 @@ module "cs-vault-lob" {
   k8s_token  = var.k8s_token
   k8s_ca     = var.k8s_ca
 
-  # vault_server_sa_secret_name = module.tf-k8s.vault-server-auth-secret-name
+  # vault_server_sa_secret_name = module.kubernetes.vault-server-auth-secret-name
 }
 
 module "cs-sa-vault-team" {
-  source = "../../modules/tf-vault-team"
+  source = "./modules/tf-vault-team"
   providers = {
     vault.lob  = vault.sea
     vault.team = vault.sa
@@ -45,7 +45,7 @@ module "cs-sa-vault-team" {
 }
 
 module "cs-sa-jan-vault-app" {
-  source = "../../modules/tf-vault-app"
+  source = "./modules/tf-vault-app"
   providers = {
     vault.lob  = vault.sea
     vault.team = vault.sa
@@ -62,12 +62,12 @@ module "cs-sa-jan-vault-app" {
 
   app_sa_name      = var.k8s_sa_name_jan_app
   app_sa_namespace = var.k8s_namespace
-  app_sa_uid       = module.tf-k8s.k8s-sa-janapp-uid
+  app_sa_uid       = module.kubernetes.k8s-sa-janapp-uid
 
 }
 
 module "cs-sa-sara-vault-app" {
-  source = "../../modules/tf-vault-app"
+  source = "./modules/tf-vault-app"
   providers = {
     vault.lob  = vault.sea
     vault.team = vault.sa
@@ -84,6 +84,6 @@ module "cs-sa-sara-vault-app" {
 
   app_sa_name      = var.k8s_sa_name_sara_app
   app_sa_namespace = var.k8s_namespace
-  app_sa_uid       = module.tf-k8s.k8s-sa-saraapp-uid
+  app_sa_uid       = module.kubernetes.k8s-sa-saraapp-uid
 
 }

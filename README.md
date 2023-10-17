@@ -8,10 +8,10 @@ This demo aims to demonstrate the following, for the following reasons:
 
 * How to configure the Vault application with Terraform
   * Why? Because Terraform is HashiCorp's recommended method of configuring the Vault application.
-* How an organisational structure could be loosely represented in Vault using Namespaces in a scalable fashion.
+* How an organizational structure could be loosely represented in Vault using Namespaces in a scalable fashion.
   * Why? Because Namespaces are useful for higher-level segregation of secrets and delegation of administration of policy in Vault.
 * How Vault clients authenticating via an auth method hosted on a parent namespace could access secrets stored on a child namespace.
-  * Why? Because many organisations may co-host multiple applications on Kubernetes, whilst still requiring some level of separation of management of their secrets due to team structures.
+  * Why? Because many organizations may co-host multiple applications on Kubernetes, whilst still requiring some level of separation of management of their secrets due to team structures.
 
 ## Scenario
 
@@ -59,7 +59,7 @@ their membership of the `sa-group` internal group on the `sa` namespace.
 ### How to Stand Up
 
 1. Deploy all resources using Terraform by running `terraform init`;`terraform plan`;`terraform apply` in the `terraform/tf-control/dev` directory. Be careful to correctly set the variables in the `terraform.tfvars` file.
-2. `cd` back to the POC root directory and then run `./3-deploy-apps.sh` to deploy the apps onto Kubernetes
+2. `cd` back to the POC root directory and then run `./deploy-apps.sh` to deploy the apps onto Kubernetes
 3. Follow the instructions in the output of this script to open the relevant pages on each nginx container web server. They'd be
     * `/cs.html` to access the sea specific secret.
     * `/sa.html` to access the sa-team specific secret.
