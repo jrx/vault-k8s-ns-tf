@@ -58,7 +58,7 @@ their membership of the `sa-group` internal group on the `sa` namespace.
 
 ### How to Stand Up
 
-1. Deploy all resources using Terraform by running `terraform init`;`terraform plan`;`terraform apply` in the `terraform/tf-control/dev` directory. Be careful to correctly set the variables in the `terraform.tfvars` file.
+1. Deploy all resources using Terraform by running `terraform init`;`terraform plan`;`terraform apply` in the `terraform` directory. Be careful to correctly set the variables in the `terraform.auto.tfvars` file.
 2. `cd` back to the POC root directory and then run `./deploy-apps.sh` to deploy the apps onto Kubernetes
 3. Follow the instructions in the output of this script to open the relevant pages on each nginx container web server. They'd be
     * `/cs.html` to access the sea specific secret.
