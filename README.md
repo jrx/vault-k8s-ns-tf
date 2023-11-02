@@ -17,11 +17,11 @@ This demo aims to demonstrate the following, for the following reasons:
 
 The scenario is very loosely based on the HashiCorp SEA/LOB structure, within which there are two teams - Solutions Architecture (sa) and Solutions Engineering (se).
 
-A Kubernetes cluster is aligned to each LOB and shared across multiple teams. Three applications, janapp, saraapp and janapp, are managed by the sa team and deployed on the cluster. Secrets need to be accessed by the applications in the following situations:
+A Kubernetes cluster is aligned to each LOB and shared across multiple teams. Three applications, janapp, saraapp and adrianapp, are managed by the sa team and deployed on the cluster. Secrets need to be accessed by the applications in the following situations:
 
-* The secret at `sea/secret/sea-secret` should be accessible by any app that is a member of the sea LOB.
-* The secret at `sea/secret/sa/secret/sa-team-secret` should only be accessible by any app that is a member of the sea team.
-* The secret at `sea/secret/sa/secret/sa-app-secrets/{appname}-app-secret` should only be accessible by that given app.
+* The secret at `sea/secret/sea` should be accessible by any app that is a member of the sea LOB.
+* The secret at `sea/sa/secret/sa-team-secret` should only be accessible by any app that is a member of the sea team.
+* The secret at `sea/sa/secret/sa-app-secrets/{appname}` should only be accessible by that given app.
 
 ### Architecture
 
@@ -49,7 +49,6 @@ their membership of the `sa-group` internal group on the `sa` namespace.
 
 ## Running the Demo
 
-
 ### Pre-Requisites
 
 * Kubernetes
@@ -76,13 +75,14 @@ their membership of the `sa-group` internal group on the `sa` namespace.
 * The [Namespaces and Mount Structuring Recommended Pattern](https://learn.hashicorp.com/tutorials/vault/namespace-structure) is an important piece of reading. It helps to explain how to onboard applications onto Vault at scale and to delineate between them correctly.
 
 Other useful topics to be familiar with include:
+
 * [Vault ACL Policy Templating](https://learn.hashicorp.com/tutorials/vault/policy-templating)
 * [Vault Identity Secrets Engine](https://www.vaultproject.io/docs/secrets/identity)
 * [Vault Mount Bound Aliases](https://www.vaultproject.io/docs/concepts/identity#mount-bound-aliases)
 * [Terraform Vault Provider](https://registry.terraform.io/providers/hashicorp/vault/latest/docs)
 * [Vault Kubernetes Integration](https://www.vaultproject.io/docs/platform/k8s), specifically the agent injector
 
-# Support
+## Support
 
 Note that no warranty is given or implied with this POC. It doesn't claim to be production ready. In production Vault environments for example:
 
